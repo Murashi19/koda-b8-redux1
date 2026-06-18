@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/incompatible-library */
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -220,11 +221,11 @@ export default function SurveyPerokok() {
 					</div>
 
 					<div className='flex justify-center mb-4'>
-						<a
-							href='tabelData.html'
+						<Link
+							to='/tabel-data'
 							className='text-orange-500 font-medium text-sm hover:underline'>
 							Lihat Tabel Hasil Survey →
-						</a>
+						</Link>
 					</div>
 				</form>
 			</div>
