@@ -1,23 +1,15 @@
-/* eslint-disable react-hooks/set-state-in-effect */
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-// Data yang disimpan form ke localStorage:
-// { fullname, umur, gender: "laki-laki"|"perempuan", perokok: "ya"|"tidak", jenisRokok: string[] }
+import { useSelector, useDispatch } from "react-redux";
+import { removeData } from "./redux/reducers/surveyResult";
 
 const capitalize = (str) => (str ? str.charAt(0).toUpperCase() + str.slice(1) : "-");
 
-export default function TabelData() {
-	const [surveys, setSurveys] = useState([]);
+const thead = ["No", "Nama", "Umur", "Gender", "Perokok", "Jenis Rokok", "Aksi"];
 
-	useEffect(() => {
-		try {
-			const stored = JSON.parse(localStorage.getItem("data-survey"));
-			setSurveys(Array.isArray(stored) ? stored : []);
-		} catch {
-			setSurveys([]);
-		}
-	}, []);
+export default function TabelData() {
+	const dispatch = useDispatch();
+	const surveys = useSelector((state) => state.surveyResult.data);
 
 	const getJenisRokok = (jenisRokok) => {
 		if (!jenisRokok || jenisRokok.length === 0) return "-";
@@ -54,7 +46,7 @@ export default function TabelData() {
 						<table className='w-full text-sm'>
 							<thead>
 								<tr className='bg-slate-50 border-b-2 border-slate-200'>
-									{["No", "Nama", "Umur", "Gender", "Perokok", "Jenis Rokok"].map((h) => (
+									{thead.map((h) => (
 										<th
 											key={h}
 											className='px-5 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-400'>
@@ -78,6 +70,13 @@ export default function TabelData() {
 											<span className={perokokBadge(survey.perokok)}>{capitalize(survey.perokok)}</span>
 										</td>
 										<td className='px-5 py-3.5 text-slate-500 text-[13px]'>{getJenisRokok(survey.jenisRokok)}</td>
+										<td className='px-5 py-3.5'>
+											<button
+												onClick={() => dispatch(removeData(idx))}
+												className='px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600'>
+												Hapus
+											</button>
+										</td>
 									</tr>
 								))}
 							</tbody>

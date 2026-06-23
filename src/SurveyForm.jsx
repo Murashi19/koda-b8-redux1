@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+// Redux
+import { useDispatch } from "react-redux";
+import { addData } from "./redux/reducers/surveyResult";
+
 const JENIS_ROKOK = [
 	{ id: "gg", value: "Gudang Garam", label: "Gudang Garam Filter" },
 	{ id: "ls", value: "LuckyStrike", label: "Lucky Strike" },
@@ -49,6 +53,7 @@ function ErrorMsg({ message }) {
 
 export default function SurveyPerokok() {
 	const [submitted, setSubmitted] = useState(false);
+	const dispatch = useDispatch();
 
 	const {
 		register,
@@ -58,6 +63,7 @@ export default function SurveyPerokok() {
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(schema),
+		mode: "onChange",
 		defaultValues: {
 			gender: "laki-laki",
 			perokok: "tidak",
@@ -68,7 +74,6 @@ export default function SurveyPerokok() {
 	const isPerokok = watch("perokok") === "ya";
 
 	const onSubmit = (data) => {
-		const existing = JSON.parse(localStorage.getItem("data-survey") || "[]");
 		const entry = {
 			fullname: data.nama,
 			umur: Number(data.umur),
@@ -76,7 +81,7 @@ export default function SurveyPerokok() {
 			perokok: data.perokok,
 			jenisRokok: data.jenis_rokok ?? [],
 		};
-		localStorage.setItem("data-survey", JSON.stringify([...existing, entry]));
+		dispatch(addData(entry));
 		setSubmitted(true);
 		reset();
 		setTimeout(() => setSubmitted(false), 3000);
@@ -106,6 +111,7 @@ export default function SurveyPerokok() {
 						</FieldLabel>
 						<input
 							id='nama'
+							name='nama'
 							type='text'
 							placeholder='Jawaban Anda'
 							className='w-full px-3 py-2 border-b-2 border-gray-300 focus:outline-none  bg-transparent transition-colors'
@@ -123,6 +129,7 @@ export default function SurveyPerokok() {
 						</FieldLabel>
 						<input
 							id='umur'
+							name='umur'
 							type='number'
 							placeholder='Masukkan umur'
 							className='w-full px-3 py-2 border-b-2 border-gray-300 focus:outline-none  bg-transparent transition-colors'
@@ -146,6 +153,7 @@ export default function SurveyPerokok() {
 									<input
 										id={opt.id}
 										type='radio'
+										name='gender'
 										value={opt.value}
 										className=' w-4 h-4 cursor-pointer'
 										{...register("gender")}
@@ -171,6 +179,7 @@ export default function SurveyPerokok() {
 									<input
 										id={opt.id}
 										type='radio'
+										name='perokok'
 										value={opt.value}
 										className=' w-4 h-4 cursor-pointer'
 										{...register("perokok")}
@@ -194,6 +203,7 @@ export default function SurveyPerokok() {
 										<input
 											id={rokok.id}
 											type='checkbox'
+											name='jenis_rokok'
 											value={rokok.value}
 											className=' w-4 h-4 cursor-pointer'
 											{...register("jenis_rokok")}
