@@ -24,8 +24,8 @@ export default function TabelData() {
 		perokok === "ya" ? "inline-block px-3 py-0.5 rounded-full text-xs font-semibold bg-orange-100 text-orange-700" : "inline-block px-3 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700";
 
 	return (
-		<div className='min-h-screen bg-slate-100 py-8 px-4 font-sans'>
-			<div className='max-w-4xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden'>
+		<div className='w-full min-h-screen bg-slate-100 py-8 px-4 font-sans'>
+			<div className='w-full mx-auto bg-white rounded-2xl shadow-md overflow-hidden'>
 				{/* Header */}
 				<div className='relative px-10 pt-9 pb-7 border-b border-slate-200 overflow-hidden'>
 					<div className='absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-indigo-600 to-indigo-400' />
