@@ -155,6 +155,10 @@ Validation rules include:
 - Building responsive user interfaces
 - Understanding centralized state management
 
+### Implementation Screenshot Results
+
+survey form successfully submitted data ![alt text](public/form.png) survey data table ![alt text](public/before.png) ![alt text](public/after.png)
+
 ```
 
 ```
