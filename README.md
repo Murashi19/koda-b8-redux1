@@ -1,17 +1,23 @@
 # Smoker Survey Form
 
-A ReactJS survey form for smokers built using `react-hook-form` and `yup` for form validation. The application allows users to submit survey data, stores the data in the browser's Local Storage, and displays submitted responses in a data
-table.
+A ReactJS survey application built using React Hook Form, Yup Validation, and Redux Toolkit. The application allows users to submit smoker survey data, manage survey records through Redux state management, and display submitted responses in
+a data table.
 
 ## Features
 
-- Form state management with `react-hook-form`
-- Schema-based validation with `yup`
-- Responsive survey form layout
-- Store survey responses in Local Storage
-- Display submitted survey data in a table
-- Client-side form validation with custom error messages
+- Form state management with React Hook Form
+- Schema-based validation using Yup
+- Global state management with Redux Toolkit
+- Add survey data to Redux Store
+- Remove survey data from Redux Store
+- Display submitted survey responses in a table
 - Dynamic rendering of survey records
+- Responsive user interface
+- Client-side validation with custom error messages
+- Success modal notification after form submission
+- User confirmation message before submitting survey data
+
+---
 
 ## Getting Started
 
@@ -26,63 +32,102 @@ npm create vite@latest smoker-survey-form -- --template react
 ```bash
 npm install
 npm install react-hook-form yup @hookform/resolvers
+npm install @reduxjs/toolkit react-redux
 ```
 
-### 3. Run the App
+### 3. Run the Application
 
 ```bash
 npm run dev
 ```
 
-## Dependencies
-
-```json
-{
-	"react": "^19.x",
-	"react-dom": "^19.x",
-	"react-hook-form": "^7.x",
-	"yup": "^1.x",
-	"@hookform/resolvers": "^5.x"
-}
-```
+---
 
 ## Project Structure
 
 ```text
 src/
 │
-├──
-|── SurveyForm.jsx
-|── TabelData.jsx
+├── pages/
+│   ├── SurveyForm.jsx
+│   └── TabelData.jsx
+│
+├── redux/
+│   ├── reducers/
+│   │   ├── surveyResult.js
+│   │   └── index.js
+│   │
+│   └── store.js
 │
 ├── App.jsx
 └── main.jsx
 ```
 
+---
+
 ## Survey Flow
 
 1. User fills out the smoker survey form.
-2. Input data is validated using Yup.
-3. If validation passes, the survey data is saved to Local Storage.
-4. Stored data is retrieved from Local Storage.
-5. Survey responses are displayed in a table.
-6. Data remains available after page refresh.
+2. Form data is validated using Yup.
+3. If validation passes, the survey data is dispatched to Redux Store.
+4. Redux reducer updates the application state.
+5. The table page retrieves survey data using useSelector.
+6. Survey records are rendered dynamically in the table.
+7. Users can remove survey data using Redux actions.
+
+---
+
+## Redux State Management
+
+This application uses Redux Toolkit for centralized state management.
+
+### Reducers
+
+- addData → Add a new survey record
+- removeData → Remove a survey record
+
+### Hooks Used
+
+#### useDispatch
+
+Used to send actions to Redux Store.
+
+Example:
+
+```js
+dispatch(addData(data));
+```
+
+#### useSelector
+
+Used to access Redux state.
+
+Example:
+
+```js
+const surveys = useSelector((state) => state.surveyResult.data);
+```
+
+---
 
 ## Validation
 
 The application uses:
 
-- `react-hook-form` for form handling
-- `yup` for schema validation
-- `@hookform/resolvers` to connect Yup with React Hook Form
+- React Hook Form for form handling
+- Yup for schema validation
+- @hookform/resolvers for integrating Yup with React Hook Form
 
-Example validations:
+Validation rules include:
 
 - Required fields
-- Minimum and maximum input length
-- Valid email format
+- Minimum and maximum character length
 - Number validation
-- Selection validation
+- Age restrictions
+- Radio button validation
+- Checkbox validation
+
+---
 
 ## Tech Stack
 
@@ -90,16 +135,26 @@ Example validations:
 - Vite
 - React Hook Form
 - Yup
-- @hookform/resolvers
-- Local Storage
+- Redux Toolkit
+- React Redux
+- Tailwind CSS
+
+---
 
 ## Learning Objectives
 
 - Building forms with React
 - Managing form state using React Hook Form
-- Creating schema validation with Yup
-- Handling form submission
-- Persisting data with Local Storage
+- Creating validation schemas with Yup
+- Implementing Redux Toolkit state management
+- Using createSlice and configureStore
+- Dispatching Redux actions
+- Accessing global state with useSelector
 - Rendering dynamic table data
 - Implementing client-side validation
 - Building responsive user interfaces
+- Understanding centralized state management
+
+```
+
+```
