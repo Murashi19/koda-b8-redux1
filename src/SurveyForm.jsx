@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+// Icon
+import { FaCheckCircle } from "react-icons/fa";
+
 // Redux
 import { useDispatch } from "react-redux";
 import { addData } from "./redux/reducers/surveyResult";
@@ -52,7 +55,7 @@ function ErrorMsg({ message }) {
 }
 
 export default function SurveyPerokok() {
-	const [submitted, setSubmitted] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 	const dispatch = useDispatch();
 
 	const {
@@ -82,9 +85,8 @@ export default function SurveyPerokok() {
 			jenisRokok: data.jenis_rokok ?? [],
 		};
 		dispatch(addData(entry));
-		setSubmitted(true);
+		setShowModal(true);
 		reset();
-		setTimeout(() => setSubmitted(false), 3000);
 	};
 
 	return (
@@ -95,9 +97,6 @@ export default function SurveyPerokok() {
 					<h1 className='text-3xl font-bold text-gray-900 mb-2'>Survey Perokok</h1>
 					<p className='text-gray-500 text-sm'>Silakan isi formulir berikut dengan lengkap.</p>
 				</Card>
-
-				{/* Success Banner */}
-				{submitted && <div className='mb-6 px-5 py-3 bg-green-100 border border-green-300 text-green-700 rounded-lg text-sm font-medium'>✓ Data berhasil disimpan!</div>}
 
 				<form
 					onSubmit={handleSubmit(onSubmit)}
@@ -214,6 +213,11 @@ export default function SurveyPerokok() {
 							</div>
 						</Card>
 					)}
+					<div className='mb-6 p-4 bg-white border border-blue-200 rounded-lg'>
+						<h3 className='font-semibold  mb-1'>Perhatian</h3>
+
+						<p className='text-xs text-gray-600'>Mohon periksa kembali seluruh data yang telah diinput sebelum menekan tombol Submit. Pastikan informasi yang diberikan sesuai</p>
+					</div>
 
 					{/* Actions */}
 					<div className='flex justify-between items-center mt-2 mb-6'>
@@ -239,6 +243,22 @@ export default function SurveyPerokok() {
 					</div>
 				</form>
 			</div>
+			{showModal && (
+				<div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'>
+					<div className='flex flex-col justify-center items-center bg-white p-6 rounded-xl shadow-lg w-100 text-center'>
+						<FaCheckCircle className='text-4xl text-green-600 mb-3' />
+						<h2 className='text-xl font-bold text-green-600 mb-3'>Berhasil</h2>
+
+						<p className='text-gray-600 mb-5'>Data survey berhasil disimpan.</p>
+
+						<button
+							onClick={() => setShowModal(false)}
+							className='px-5 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600'>
+							OK
+						</button>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
